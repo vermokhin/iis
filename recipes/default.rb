@@ -23,6 +23,7 @@ default = Opscode::IIS::Helper.older_than_windows2008r2? ? 'Web-Server' : 'IIS-W
 
 ([default] + node['iis']['components']).each do |feature|
   windows_feature feature do
+    install_method :windows_feature_powershell
     action :install
     all !Opscode::IIS::Helper.older_than_windows2012?
     source node['iis']['source'] unless node['iis']['source'].nil?
