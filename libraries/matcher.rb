@@ -1,12 +1,5 @@
 if defined?(ChefSpec)
 
-  [:set, :clear, :config].each do |action|
-    self.class.send(:define_method, "#{action}_iis_config", proc do |config_name|
-      ChefSpec::Matchers::ResourceMatcher.new(:iis_config, action, config_name)
-    end
-                   )
-  end
-
   [:config, :add, :delete].each do |action|
     self.class.send(:define_method, "#{action}_iis_app", proc do |app_name|
       ChefSpec::Matchers::ResourceMatcher.new(:iis_app, action, app_name)
@@ -14,9 +7,9 @@ if defined?(ChefSpec)
                    )
   end
 
-  [:config].each do |action|
-    self.class.send(:define_method, "#{action}_iis_lock", proc do |section|
-      ChefSpec::Matchers::ResourceMatcher.new(:iis_lock, action, section)
+  [:set, :clear, :config].each do |action|
+    self.class.send(:define_method, "#{action}_iis_config", proc do |config_name|
+      ChefSpec::Matchers::ResourceMatcher.new(:iis_config, action, config_name)
     end
                    )
   end
@@ -35,16 +28,23 @@ if defined?(ChefSpec)
                    )
   end
 
-  [:add, :delete, :start, :stop, :restart, :config].each do |action|
-    self.class.send(:define_method, "#{action}_iis_site", proc do |site_name|
-      ChefSpec::Matchers::ResourceMatcher.new(:iis_site, action, site_name)
+  [:add, :delete, :start, :config].each do |action|
+    self.class.send(:define_method, "#{action}_iis_root", proc do |root_name|
+      ChefSpec::Matchers::ResourceMatcher.new(:iis_root, action, root_name)
     end
                    )
   end
 
-  [:config].each do |action|
-    self.class.send(:define_method, "#{action}_iis_unlock", proc do |section|
-      ChefSpec::Matchers::ResourceMatcher.new(:iis_unlock, action, section)
+  [:lock, :unlock].each do |action|
+    self.class.send(:define_method, "#{action}_iis_section", proc do |section|
+      ChefSpec::Matchers::ResourceMatcher.new(:iis_section, action, section)
+    end
+                   )
+  end
+
+  [:add, :delete, :start, :stop, :restart, :config].each do |action|
+    self.class.send(:define_method, "#{action}_iis_site", proc do |site_name|
+      ChefSpec::Matchers::ResourceMatcher.new(:iis_site, action, site_name)
     end
                    )
   end
@@ -64,10 +64,9 @@ if defined?(ChefSpec)
 
   define_method.call :iis_app
   define_method.call :iis_config
-  define_method.call :iis_lock
   define_method.call :iis_module
   define_method.call :iis_pool
+  define_method.call :iis_section
   define_method.call :iis_site
-  define_method.call :iis_unlock
   define_method.call :iis_vdir
 end

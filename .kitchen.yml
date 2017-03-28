@@ -10,6 +10,7 @@ transport:
 
 provisioner:
   name: chef_zero
+  require_chef_omnibus: true
   deprecations_as_errors: true
 
 verifier:
@@ -17,13 +18,16 @@ verifier:
 
 platforms:
   - name: win2012r2
+    run_list:
     driver_config:
       box: opentable/win-2012r2-standard-amd64-nocm
   - name: win2008r2
+    run_list:
     driver_config:
       box: opentable/win-2008r2-standard-amd64-nocm
 
 suites:
-  - name: default
+  - name: smoke_test
     run_list:
       - recipe[iis::default]
+      - recipe[test_helper::default]

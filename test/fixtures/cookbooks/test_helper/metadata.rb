@@ -1,0 +1,7 @@
+name             'test_helper'
+maintainer       'Justin Schuhmann'
+maintainer_email 'jmschu02@gmail.com'
+license          'Apache-2.0'
+description      'Tests Configurations for iis'
+version          '0.2.0'
+depends			 'iis', '~> 5.1.0'
